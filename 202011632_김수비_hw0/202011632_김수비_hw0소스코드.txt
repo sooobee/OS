@@ -1,0 +1,29 @@
+#include <stdio.h>
+ #include <stdlib.h>
+
+typedef struct{ // 프로세스 구조체
+    int pid; // 프로세스 ID
+    int arrival_time; // 도착시간
+    int code_bytes; // 코드 길이
+} process;
+
+typedef struct{ // 코드 구조체 
+    unsigned char length; // 코드 동작 시간
+    unsigned char operation; // 동작
+} codes; 
+
+int main(int argc, char* argv[]) {
+    process p; // process 구조체 p
+    codes c; // codes 구조체 c
+
+    while(fread(&p, sizeof(process), 1, stdin))
+    {
+        fprintf(stdout, "%d %d %d\n", p.pid, p.arrival_time, p.code_bytes);
+
+       for(int i=0; i<p.code_bytes/2; i++){  // 코드길이/2 만큼 반복
+            fread(&c, sizeof(codes), 1, stdin);
+            fprintf(stdout, "%d %d\n", c.length, c.operation); // 동작 시간과 동작 종류 출력
+        }
+    }
+    return 0;
+}
